@@ -1,0 +1,6 @@
+@Ecommerce_SOLID_HostAddress = http://localhost:5168
+
+GET {{Ecommerce_SOLID_HostAddress}}/
+Accept: text/html
+
+###

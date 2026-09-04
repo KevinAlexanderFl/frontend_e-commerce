@@ -1,0 +1,3 @@
+@model ErrorViewModel
+@{ ViewData["Title"] = "Error"; }
+<section class="panel form-card"><h1>No fue posible completar la solicitud</h1><p>Vuelve al resumen e intenta nuevamente.</p>@if (Model.ShowRequestId) { <p><strong>Código:</strong> @Model.RequestId</p> }<a class="btn primary" asp-action="Index">Volver</a></section>

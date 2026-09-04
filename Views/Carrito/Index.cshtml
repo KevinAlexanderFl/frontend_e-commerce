@@ -1,0 +1,28 @@
+@model CarritoViewModel
+@{ ViewData["Title"] = "Carrito"; }
+<div class="page-head"><div><span class="eyebrow">MÓDULO CARRITO</span><h1>Carrito de compra</h1><p>Agrega productos y registra una nueva venta.</p></div></div>
+<div class="cart-grid">
+    <section class="panel">
+        <form class="add-row" asp-action="Add" method="post">
+            <label>Producto<select name="productoId" required>@foreach (var product in Model.Productos) { <option value="@product.Id">@product.Nombre · @product.Precio.ToString("C") · Stock @product.Stock</option> }</select></label>
+            <label>Cantidad<input name="cantidad" type="number" min="1" value="1" required /></label>
+            <button class="btn primary" @(Model.Productos.Count == 0 ? "disabled" : "")>＋ Agregar</button>
+        </form>
+        <div class="cart-items">
+            @if (Model.Items.Count == 0) { <div class="empty"><strong>El carrito está vacío</strong><p>Agrega un producto para comenzar.</p></div> }
+            @foreach (var item in Model.Items) {
+                <article><span class="product-mark">@(item.Nombre[..Math.Min(2,item.Nombre.Length)].ToUpper())</span><div><strong>@item.Nombre</strong><small>@item.Precio.ToString("C") por unidad</small></div><b>@item.Cantidad u.</b><strong>@item.Subtotal.ToString("C")</strong><form asp-action="Remove" method="post"><input name="productoId" value="@item.ProductoId" type="hidden" /><button class="remove" title="Quitar">×</button></form></article>
+            }
+        </div>
+    </section>
+    <aside class="panel checkout">
+        <span class="checkout-icon">▣</span><h2>Resumen del pedido</h2>
+        <form asp-action="Checkout" method="post">
+            <label>Cliente<select name="ClienteId" required><option value="">Seleccione...</option>@foreach (var client in Model.Clientes) { <option value="@client.Id">@client.Nombres @client.Apellidos</option> }</select></label>
+            <label>Forma de pago<select name="MetodoPago"><option>Tarjeta</option><option>Transferencia</option><option>Efectivo</option></select></label>
+            <div class="total"><span>Subtotal <strong>@Model.Total.ToString("C")</strong></span><span>IVA incluido <strong>$0,00</strong></span><span>Total <strong>@Model.Total.ToString("C")</strong></span></div>
+            <button class="btn primary block" @(Model.Items.Count == 0 ? "disabled" : "")>Generar pedido</button>
+        </form>
+        <small>La operación actualizará inventario, pedidos y pagos.</small>
+    </aside>
+</div>

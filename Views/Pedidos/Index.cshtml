@@ -1,0 +1,7 @@
+@model IEnumerable<Pedido>
+@{ ViewData["Title"] = "Pedidos"; }
+<div class="page-head"><div><span class="eyebrow">MÓDULO PEDIDOS</span><h1>Pedidos</h1><p>Da seguimiento a cada venta desde su creación hasta la entrega.</p></div></div>
+<section class="panel data-panel"><div class="toolbar"><label class="search">⌕ <input data-table-search="ordersTable" placeholder="Buscar pedido, cliente o estado" /></label><span>@Model.Count() pedidos</span></div><div class="table-wrap"><table id="ordersTable"><thead><tr><th>Pedido</th><th>Cliente</th><th>Fecha</th><th>Productos</th><th>Total</th><th>Estado</th></tr></thead><tbody>
+@if (!Model.Any()) { <tr><td colspan="6" class="empty">No existen pedidos registrados.</td></tr> }
+@foreach (var item in Model) { <tr><td><div class="entity order"><span>#</span><div><strong>@item.Numero</strong><small>ID #@item.Id</small></div></div></td><td>@item.Cliente?.Nombres @item.Cliente?.Apellidos</td><td>@item.Fecha.ToString("dd/MM/yyyy HH:mm")</td><td>@item.Detalles.Sum(detail => detail.Cantidad) unidad(es)</td><td><strong>@item.Total.ToString("C")</strong></td><td><form class="inline-form" asp-action="ChangeStatus" method="post"><input type="hidden" name="id" value="@item.Id" /><select name="estado" onchange="this.form.submit()">@foreach (var status in new[] { "Nuevo", "Preparando", "Enviado", "Entregado", "Cancelado" }) { if (item.Estado == status) { <option selected>@status</option> } else { <option>@status</option> } }</select></form></td></tr> }
+</tbody></table></div></section>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sistema administrativo e-commerce desarrollado con ASP.NET Core MVC y SOLID." />
+    <title>@ViewData["Title"] - NexoCommerce</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="shell">
+        <aside class="sidebar" id="sidebar">
+            <a class="brand" asp-controller="Home" asp-action="Index"><span>N</span><div><strong>Nexo</strong><small>Commerce</small></div></a>
+            <p class="nav-label">GESTIÓN</p>
+            <nav>
+                <a class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index"><b>⌂</b>Resumen</a>
+                <a class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Clientes" ? "active" : "")" asp-controller="Clientes" asp-action="Index"><b>♙</b>Clientes</a>
+                <a class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Proveedores" ? "active" : "")" asp-controller="Proveedores" asp-action="Index"><b>◇</b>Proveedores</a>
+                <a class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Inventario" ? "active" : "")" asp-controller="Inventario" asp-action="Index"><b>▦</b>Inventario</a>
+                <a class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Carrito" ? "active" : "")" asp-controller="Carrito" asp-action="Index"><b>🛒</b>Carrito</a>
+                <a class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Pedidos" ? "active" : "")" asp-controller="Pedidos" asp-action="Index"><b>□</b>Pedidos</a>
+                <a class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Pagos" ? "active" : "")" asp-controller="Pagos" asp-action="Index"><b>$</b>Pagos</a>
+            </nav>
+            <div class="user"><span>KF</span><div><strong>Kevin Flores</strong><small>Administrador</small></div></div>
+        </aside>
+        <main>
+            <header class="topbar"><button type="button" id="menuButton" aria-label="Abrir menú">☰</button><div><small>Panel administrativo</small><strong>@DateTime.Now.ToString("dddd, dd 'de' MMMM")</strong></div><span class="online"><i></i>Sistema operativo</span></header>
+            <div class="content">
+                @if (TempData["Success"] is string success) { <div class="alert success">@success</div> }
+                @if (TempData["Error"] is string error) { <div class="alert error">@error</div> }
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

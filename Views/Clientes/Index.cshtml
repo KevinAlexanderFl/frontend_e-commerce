@@ -1,0 +1,9 @@
+@model IEnumerable<Cliente>
+@{ ViewData["Title"] = "Clientes"; }
+<div class="page-head"><div><span class="eyebrow">MÓDULO CLIENTES</span><h1>Clientes</h1><p>Administra la información de tus compradores.</p></div><a class="btn primary" asp-action="Upsert">＋ Nuevo cliente</a></div>
+<section class="panel data-panel">
+    <div class="toolbar"><label class="search">⌕ <input data-table-search="clientesTable" placeholder="Buscar por nombre, correo o RUC" /></label><span>@Model.Count() registros</span></div>
+    <div class="table-wrap"><table id="clientesTable"><thead><tr><th>Cliente</th><th>Contacto</th><th>RUC / Cédula</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+    @foreach (var item in Model) { <tr><td><div class="entity"><span>@item.Nombres[0]@item.Apellidos[0]</span><div><strong>@item.Nombres @item.Apellidos</strong><small>ID #@item.Id</small></div></div></td><td><strong>@item.Email</strong><small>@item.Telefono</small></td><td>@item.Ruc</td><td>@item.Direccion</td><td><span class="badge @(item.Activo ? "ok" : "off")">@(item.Activo ? "Activo" : "Inactivo")</span></td><td><div class="actions"><a asp-action="Upsert" asp-route-id="@item.Id" title="Editar">✎</a><form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('¿Eliminar este cliente?')"><button class="danger" title="Eliminar">×</button></form></div></td></tr> }
+    </tbody></table></div>
+</section>
