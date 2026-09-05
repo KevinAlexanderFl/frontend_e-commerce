@@ -1,69 +1,74 @@
-# NexoCommerce — ASP.NET Core MVC con SOLID
+# NexoCommerce — Frontend Angular con principios SOLID
 
-Proyecto e-commerce desarrollado en C# siguiendo la estructura del repositorio `Api_Clientes_Quito`:
+Frontend administrativo para un sistema web e-commerce. Está desarrollado completamente con **Angular 22, TypeScript, HTML y CSS**. No contiene C#, Razor, Entity Framework ni base de datos: consume el backend mediante servicios HTTP.
 
-```text
-Ecommerce_SOLID_MVC/
-├── Controllers/
-├── Models/
-├── Properties/
-├── Services/
-├── Views/
-├── wwwroot/
-├── Ecommerce_SOLID.csproj
-├── Ecommerce_SOLID.http
-├── Ecommerce_SOLID.slnx
-├── Program.cs
-├── appsettings.Development.json
-└── appsettings.json
-```
+## Módulos incluidos
 
-Las carpetas `Views` y `wwwroot` contienen la interfaz. `Services` contiene únicamente clientes HTTP para consumir el backend existente. Este proyecto no incluye Entity Framework, migraciones ni conexión a una base de datos.
+- Panel principal con indicadores, últimos pedidos y alertas de stock.
+- Clientes y Proveedores: CRUD completo con búsqueda.
+- Inventario: productos, precios, existencias y stock mínimo.
+- Carrito: productos, cantidades, cliente y método de pago.
+- Pedidos: consulta, detalle y actualización del estado.
+- Pagos: totales, transacciones y actualización del estado.
 
-## Módulos
+## Cómo ejecutar en Visual Studio Code
 
-- Clientes: crear, consultar, editar, buscar y eliminar.
-- Proveedores: CRUD y clasificación por categoría.
-- Inventario: productos, precios, existencias y alertas de stock mínimo.
-- Carrito: selección de productos y cantidades con validación de stock.
-- Pedidos: checkout, descuento de inventario y seguimiento de estado.
-- Pagos: registro automático, referencia, método y estado.
-- Dashboard: resumen de clientes, productos, pedidos, ingresos y stock bajo.
-
-## Cómo ejecutar en Visual Studio
-
-1. Instalar el SDK de .NET 10.
-2. Descomprimir el proyecto.
-3. Abrir `Ecommerce_SOLID.slnx` en Visual Studio 2026 o abrir la carpeta en Visual Studio Code.
-4. Restaurar paquetes NuGet.
-5. Ejecutar primero el backend y después este frontend con el perfil HTTPS.
-
-Desde una terminal también se puede ejecutar:
+Requisitos: Node.js 20.19 o superior, Visual Studio Code y el backend en ejecución.
 
 ```bash
-dotnet restore
-dotnet run
+npm install
+npm start
 ```
+
+Angular abrirá la aplicación normalmente en `http://localhost:4200`. En Windows también puedes ejecutar `Iniciar.bat`.
 
 ## Conexión con el backend
 
-La dirección del backend se configura en `appsettings.json`. La URL predeterminada coincide con el perfil HTTPS del repositorio `Api_Clientes_Quito`:
+La URL se configura en `src/environments/environment.ts`. El valor incluido es:
 
-```json
-"BaseUrl": "https://localhost:7068/api/"
+```ts
+apiUrl: 'https://localhost:7068/api'
 ```
 
-Los endpoints esperados también son configurables:
+Si tu API usa otro puerto, modifica solamente ese valor.
 
-```json
-"Clientes": "Clientes",
-"Proveedores": "Proveedores",
-"Productos": "Productos",
-"Pedidos": "Pedidos",
-"Checkout": "Pedidos/checkout",
-"Pagos": "Pagos"
+| Módulo | Endpoint esperado |
+|---|---|
+| Clientes | `/api/Clientes` |
+| Proveedores | `/api/Proveedores` |
+| Inventario | `/api/Productos` |
+| Pedidos | `/api/Pedidos` |
+| Pagos | `/api/Pagos` |
+
+El backend debe permitir CORS para `http://localhost:4200`. Si utiliza HTTPS local, abre primero Swagger y acepta el certificado de desarrollo.
+
+## Compilación
+
+```bash
+npm run build
 ```
 
-Si el backend utiliza rutas distintas, solo se modifican esos valores. No es necesario cambiar los controladores ni las vistas.
+La versión final se genera en `dist/frontend-angular/browser`.
 
-Consulta `DOCUMENTACION_SOLID.md` para la explicación académica de la arquitectura.
+## Estructura
+
+```text
+src/app/
+├── core/
+│   ├── contracts/          Interfaces
+│   ├── models/             Modelos TypeScript
+│   └── services/           Acceso HTTP y reglas de negocio
+├── features/
+│   ├── panel/
+│   ├── clientes/
+│   ├── proveedores/
+│   ├── inventario/
+│   ├── carrito/
+│   ├── pedidos/
+│   └── pagos/
+├── shared/utils/           Utilidades reutilizables
+├── app.routes.ts           Rutas con carga diferida
+└── app.config.ts           Inyección de dependencias
+```
+
+La justificación académica está en `DOCUMENTACION_SOLID.md`.

@@ -1,0 +1,21 @@
+<div class="page-heading"><div><span class="eyebrow">Módulo clientes</span><h1>Clientes</h1><p>Administra la información de tus compradores.</p></div><button class="button primary" (click)="nuevo()">＋ Nuevo cliente</button></div>
+@if (mensaje()) { <div class="alert"><strong>Aviso:</strong> {{ mensaje() }} <button (click)="cargar()">Reintentar</button></div> }
+<section class="panel data-panel">
+  <div class="toolbar"><label class="search-box">⌕<input [ngModel]="consulta()" (ngModelChange)="consulta.set($event)" placeholder="Buscar por nombre, correo o RUC"></label><span>{{ filtrados().length }} registros</span></div>
+  @if (cargando()) { <div class="loading"><span></span><span></span><span></span></div> }
+  @else if (filtrados().length) {
+    <div class="table-scroll"><table><thead><tr><th>Cliente</th><th>Contacto</th><th>RUC / Cédula</th><th>Dirección</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+      @for (cliente of filtrados(); track cliente.id) { <tr><td><div class="entity"><span>{{ cliente.nombres.charAt(0) }}{{ cliente.apellidos.charAt(0) }}</span><div><strong>{{ cliente.nombres }} {{ cliente.apellidos }}</strong><small>ID #{{ cliente.id }}</small></div></div></td><td><strong>{{ cliente.email }}</strong><small>{{ cliente.telefono }}</small></td><td>{{ cliente.ruc }}</td><td>{{ cliente.direccion }}</td><td><span class="badge" [class.success]="cliente.estado === 'Activo'" [class.danger]="cliente.estado === 'Inactivo'">● {{ cliente.estado }}</span></td><td><div class="row-actions"><button (click)="editar(cliente)" title="Editar">✎</button><button class="danger-text" (click)="eliminar(cliente.id)" title="Eliminar">⌫</button></div></td></tr> }
+    </tbody></table></div>
+  } @else { <div class="empty-state">◎<p>No se encontraron clientes.</p></div> }
+</section>
+@if (modal()) {
+  <div class="modal-backdrop"><section class="modal"><header><h2>{{ editandoId === null ? 'Nuevo cliente' : 'Editar cliente' }}</h2><button class="icon-button" (click)="modal.set(false)">×</button></header>
+    <form class="form-grid" (ngSubmit)="guardar()">
+      <label>Nombres<input required name="nombres" [(ngModel)]="formulario.nombres"></label><label>Apellidos<input required name="apellidos" [(ngModel)]="formulario.apellidos"></label>
+      <label>Correo electrónico<input required type="email" name="email" [(ngModel)]="formulario.email"></label><label>Teléfono<input required name="telefono" [(ngModel)]="formulario.telefono"></label>
+      <label>RUC / Cédula<input required name="ruc" [(ngModel)]="formulario.ruc"></label><label>Estado<select name="estado" [(ngModel)]="formulario.estado"><option>Activo</option><option>Inactivo</option></select></label>
+      <label class="full">Dirección<input required name="direccion" [(ngModel)]="formulario.direccion"></label><footer class="form-actions"><button type="button" class="button secondary" (click)="modal.set(false)">Cancelar</button><button class="button primary">Guardar cliente</button></footer>
+    </form>
+  </section></div>
+}

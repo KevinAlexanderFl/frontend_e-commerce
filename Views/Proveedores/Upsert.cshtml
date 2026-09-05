@@ -1,9 +1,0 @@
-@model Proveedor
-@{ ViewData["Title"] = Model.Id == 0 ? "Nuevo proveedor" : "Editar proveedor"; }
-<div class="page-head"><div><span class="eyebrow">MÓDULO PROVEEDORES</span><h1>@ViewData["Title"]</h1><p>Registra los datos comerciales del proveedor.</p></div></div>
-<section class="panel form-card"><form asp-action="Upsert" method="post"><input asp-for="Id" type="hidden" /><div asp-validation-summary="ModelOnly" class="validation"></div><div class="form-grid">
-    <label>Razón social<input asp-for="Nombre" /><span asp-validation-for="Nombre"></span></label><label>RUC<input asp-for="Ruc" /><span asp-validation-for="Ruc"></span></label>
-    <label>Persona de contacto<input asp-for="Contacto" /><span asp-validation-for="Contacto"></span></label><label>Teléfono<input asp-for="Telefono" /><span asp-validation-for="Telefono"></span></label>
-    <label>Correo electrónico<input asp-for="Email" /><span asp-validation-for="Email"></span></label><label>Categoría<select asp-for="Categoria"><option>Tecnología</option><option>Moda</option><option>Hogar</option><option>Alimentos</option><option>Otros</option></select></label>
-    <label class="check"><input asp-for="Activo" /> Proveedor activo</label><footer><a class="btn secondary" asp-action="Index">Cancelar</a><button class="btn primary">Guardar proveedor</button></footer>
-</div></form></section>

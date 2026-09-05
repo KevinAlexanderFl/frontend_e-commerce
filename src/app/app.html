@@ -1,0 +1,33 @@
+<div class="app-shell" [class.is-collapsed]="contraido()">
+  <aside class="sidebar" [class.is-open]="menuAbierto()">
+    <div class="brand">
+      <span class="brand-mark">N</span>
+      <div class="brand-copy"><strong>Nexo</strong><span>Commerce</span></div>
+      <button class="icon-button mobile-close" (click)="menuAbierto.set(false)" aria-label="Cerrar menú">×</button>
+    </div>
+    <p class="nav-caption">GESTIÓN</p>
+    <nav>
+      <a routerLink="/panel" routerLinkActive="active" (click)="menuAbierto.set(false)"><span class="nav-icon">⌂</span><span>Resumen</span></a>
+      <a routerLink="/clientes" routerLinkActive="active" (click)="menuAbierto.set(false)"><span class="nav-icon">◎</span><span>Clientes</span></a>
+      <a routerLink="/proveedores" routerLinkActive="active" (click)="menuAbierto.set(false)"><span class="nav-icon">◇</span><span>Proveedores</span></a>
+      <a routerLink="/inventario" routerLinkActive="active" (click)="menuAbierto.set(false)"><span class="nav-icon">▦</span><span>Inventario</span></a>
+      <a routerLink="/carrito" routerLinkActive="active" (click)="menuAbierto.set(false)"><span class="nav-icon">⌑</span><span>Carrito</span><b class="cart-count">{{ carrito.cantidad() }}</b></a>
+      <a routerLink="/pedidos" routerLinkActive="active" (click)="menuAbierto.set(false)"><span class="nav-icon">▤</span><span>Pedidos</span></a>
+      <a routerLink="/pagos" routerLinkActive="active" (click)="menuAbierto.set(false)"><span class="nav-icon">$</span><span>Pagos</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">KF</div>
+      <div class="user-copy"><strong>Kevin Flores</strong><span>Administrador</span></div>
+    </div>
+    <button class="collapse-button" (click)="contraido.update(valor => !valor)" aria-label="Contraer menú">{{ contraido() ? '›' : '‹' }}</button>
+  </aside>
+  @if (menuAbierto()) { <button class="sidebar-overlay" (click)="menuAbierto.set(false)" aria-label="Cerrar menú"></button> }
+  <main class="main-content">
+    <header class="topbar">
+      <button class="icon-button menu-button" (click)="menuAbierto.set(true)" aria-label="Abrir menú">☰</button>
+      <div><span>Panel administrativo</span><strong>E-commerce conectado a API</strong></div>
+      <span class="environment"><i></i> Angular</span>
+    </header>
+    <div class="page-wrap"><router-outlet /></div>
+  </main>
+</div>

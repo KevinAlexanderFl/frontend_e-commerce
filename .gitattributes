@@ -1,3 +1,2 @@
-* text=auto
-*.cs text eol=lf
-*.cshtml text eol=lf
+* text=auto eol=lf
+*.bat text eol=crlf
